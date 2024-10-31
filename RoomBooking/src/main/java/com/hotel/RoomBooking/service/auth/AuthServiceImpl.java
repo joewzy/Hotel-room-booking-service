@@ -1,6 +1,7 @@
 package com.hotel.RoomBooking.service.auth;
 
 import com.hotel.RoomBooking.dto.LoginDto;
+import com.hotel.RoomBooking.dto.RequestResponse;
 import com.hotel.RoomBooking.dto.SignUpDto;
 import com.hotel.RoomBooking.dto.UserDto;
 import com.hotel.RoomBooking.entity.Users;

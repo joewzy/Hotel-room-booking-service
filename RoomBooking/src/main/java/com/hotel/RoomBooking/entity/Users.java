@@ -2,10 +2,7 @@ package com.hotel.RoomBooking.entity;
 
 import com.hotel.RoomBooking.dto.UserDto;
 import com.hotel.RoomBooking.enums.UserRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -31,6 +28,7 @@ public class Users implements UserDetails {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
     @CreationTimestamp
@@ -75,6 +73,8 @@ public class Users implements UserDetails {
         userDto.setName(getName());
         userDto.setEmail(getEmail());
         userDto.setUserRole(getUserRole());
+        userDto.setCreatedOn(getCreatedAt());
+        userDto.setUpdatedOn(getUpdatedAt());
 
         return userDto;
     }
