@@ -1,6 +1,7 @@
 package com.hotel.RoomBooking.controller.auth;
 
 import com.hotel.RoomBooking.dto.LoginDto;
+import com.hotel.RoomBooking.dto.RequestResponse;
 import com.hotel.RoomBooking.dto.SignUpDto;
 import com.hotel.RoomBooking.dto.UserDto;
 import com.hotel.RoomBooking.exceptions.UserException;
@@ -20,7 +21,7 @@ public class AuthController {
     private AuthServiceImpl authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signUpUser(@RequestBody SignUpDto signUpRequest) throws UserException {
+    public ResponseEntity<RequestResponse> signUpUser(@RequestBody SignUpDto signUpRequest) throws UserException {
         return  ResponseEntity.ok(authService.createUser(signUpRequest));
     }
 

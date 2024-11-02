@@ -12,6 +12,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityExistsException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,29 +52,36 @@ public class AuthServiceImpl implements AuthService {
     }
 
     //create new Customer
-    public UserDto createUser(SignUpDto signUpRequest) throws UserException {
-
+    public RequestResponse createUser(SignUpDto signUpRequest) throws UserException {
+        RequestResponse response = new RequestResponse();
         try {
 
             Optional<Users> existingUser = userRepo.findByEmail(signUpRequest.getEmail());
             if(existingUser.isPresent()){
-                throw new UserException("User with email exists "+ signUpRequest.getEmail());
+                response.setStatusCode(403);
+                response.setMessage("Failed to create user");
+                response.setError("User with email exists "+ signUpRequest.getEmail());
+                return response;
+//                throw new UserException("User with email exists "+ signUpRequest.getEmail());
             }
             Users newUser = new Users();
             newUser.setName(signUpRequest.getName());
             newUser.setEmail(signUpRequest.getEmail());
             newUser.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
             newUser.setUserRole(UserRole.CUSTOMER);
-            userRepo.save(newUser);
-            System.out.println("Account Created successfully");
+            Users savedUser = userRepo.save(newUser);
 
-            return newUser.getUserDto();
+            if (savedUser.getId()>0) {
+                response.setMessage("Account Created successfully");
+                response.setStatusCode(201);
+                response.responseMapper(newUser);
+            }
+
         }
         catch (Exception e) {
             throw new UserException(e.toString());
         }
-
-
+        return response;
     }
 
 /*    public UserDto login(LoginDto loginDto){
