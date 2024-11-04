@@ -60,14 +60,14 @@ public class JwtUtil {
     //check if token is Expired
     public boolean isTokenExpired(String token){
         Claims claims = extractClaims(token);
-        return claims.getExpiration().after(Date.from(Instant.now()));
+        return claims.getExpiration().after(new Date());
     }
 
 
     //checking validity and expiration of jwt token
     public boolean isTokenValid(String token,UserDetails userDetails){
         final String username = extractUserName(token) ;
-        return (username.equals(userDetails.getUsername())) && (!isTokenExpired(token)) ;
+        return (username.equals(userDetails.getUsername())) && (isTokenExpired(token)) ;
     }
 
 
