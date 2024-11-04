@@ -111,6 +111,7 @@ public class AuthServiceImpl implements AuthService {
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setMessage("Login successful");
+            response.setExpirationTime("24 Hours");
 
         }
         catch (Exception e) {
