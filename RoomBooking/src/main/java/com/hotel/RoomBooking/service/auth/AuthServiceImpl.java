@@ -114,7 +114,6 @@ public class AuthServiceImpl implements AuthService {
 
         }
         catch (Exception e) {
-//            throw new RuntimeException(e);
             response.setStatusCode(500);
             response.setError(e.getMessage());
         }
