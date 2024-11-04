@@ -8,12 +8,15 @@ import com.hotel.RoomBooking.entity.Users;
 import com.hotel.RoomBooking.enums.UserRole;
 import com.hotel.RoomBooking.exceptions.UserException;
 import com.hotel.RoomBooking.repo.UserRepo;
+import com.hotel.RoomBooking.util.JwtUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityExistsException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     //create default admin if none exists
     // this runs when application starts
@@ -84,12 +93,31 @@ public class AuthServiceImpl implements AuthService {
         return response;
     }
 
-/*    public UserDto login(LoginDto loginDto){
+    public RequestResponse login(LoginDto loginDto){
+        RequestResponse response = new RequestResponse();
         try{
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginDto.getEmail(),
+                    loginDto.getPassword()
+                    )
+            );
+            Optional<Users> theUser = userRepo.findByEmail(loginDto.getEmail());
+            if (theUser.isEmpty()){
+                throw new UserException("Invalid Credentials");
+            }
+            String jwt = jwtUtil.generateToken(theUser.get());
+            response.setId(theUser.get().getId());
+            response.setEmail(theUser.get().getEmail());
+            response.setStatusCode(200);
+            response.setToken(jwt);
+            response.setMessage("Login successful");
 
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+//            throw new RuntimeException(e);
+            response.setStatusCode(500);
+            response.setError(e.getMessage());
         }
-    }*/
+        return response;
+    }
 }
