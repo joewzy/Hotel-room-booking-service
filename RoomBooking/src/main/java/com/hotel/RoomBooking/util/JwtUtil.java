@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,6 +15,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
+@Component
 public class JwtUtil {
 
     private SecretKey key;
