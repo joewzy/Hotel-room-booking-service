@@ -3,7 +3,6 @@ package com.hotel.RoomBooking.controller.auth;
 import com.hotel.RoomBooking.dto.LoginDto;
 import com.hotel.RoomBooking.dto.RequestResponse;
 import com.hotel.RoomBooking.dto.SignUpDto;
-import com.hotel.RoomBooking.dto.UserDto;
 import com.hotel.RoomBooking.exceptions.UserException;
 import com.hotel.RoomBooking.service.auth.AuthServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,21 +3,17 @@ package com.hotel.RoomBooking.service.auth;
 import com.hotel.RoomBooking.dto.LoginDto;
 import com.hotel.RoomBooking.dto.RequestResponse;
 import com.hotel.RoomBooking.dto.SignUpDto;
-import com.hotel.RoomBooking.dto.UserDto;
 import com.hotel.RoomBooking.entity.Users;
 import com.hotel.RoomBooking.enums.UserRole;
 import com.hotel.RoomBooking.exceptions.UserException;
 import com.hotel.RoomBooking.repo.UserRepo;
 import com.hotel.RoomBooking.util.JwtUtil;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityExistsException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    //create new Customer
+    //create new Customer (non Admin)
     public RequestResponse createUser(SignUpDto signUpRequest) throws UserException {
         RequestResponse response = new RequestResponse();
         try {
@@ -71,7 +67,6 @@ public class AuthServiceImpl implements AuthService {
                 response.setMessage("Failed to create user");
                 response.setError("User with email exists "+ signUpRequest.getEmail());
                 return response;
-//                throw new UserException("User with email exists "+ signUpRequest.getEmail());
             }
             Users newUser = new Users();
             newUser.setName(signUpRequest.getName());

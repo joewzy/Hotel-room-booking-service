@@ -2,15 +2,13 @@ package com.hotel.RoomBooking.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
@@ -45,18 +43,24 @@ public class JwtUtil {
     //private methods called only in this class
     //extract claims from token
 
-    private <T> T extractClaims(String token, Function<Claims,T> claimsTFunction){
-        return claimsTFunction.apply(Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload());
+    private Claims extractClaims(String jwtToken){
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(jwtToken)
+                .getPayload();
     }
 
     //extract username from token
     public String extractUserName(String token){
-        return extractClaims(token,Claims::getSubject);
+        Claims claims = extractClaims(token);
+        return claims.getSubject();
     }
 
     //check if token is Expired
     public boolean isTokenExpired(String token){
-        return extractClaims(token,Claims::getExpiration).before(new Date());
+        Claims claims = extractClaims(token);
+        return claims.getExpiration().after(Date.from(Instant.now()));
     }
 
 
