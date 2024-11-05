@@ -25,7 +25,7 @@ public class RequestResponse {
     // response messages
     private int statusCode;
     private String message;
-    private List<Users> allUsersList;
+    private List<UserDto> allUsersList;
     private String error;
     private String token;
     private String expirationTime;
