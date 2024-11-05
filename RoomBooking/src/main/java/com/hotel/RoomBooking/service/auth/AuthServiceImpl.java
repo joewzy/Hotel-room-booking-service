@@ -83,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
 
         }
         catch (Exception e) {
-            throw new UserException(e.toString());
+            throw new UserException("Encountered an error "+ e.getMessage());
         }
         return response;
     }
@@ -103,6 +103,7 @@ public class AuthServiceImpl implements AuthService {
             String jwt = jwtUtil.generateToken(theUser.get());
             response.setId(theUser.get().getId());
             response.setEmail(theUser.get().getEmail());
+            response.setUserRole(theUser.get().getUserRole());
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setMessage("Login successful");
@@ -111,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
         }
         catch (Exception e) {
             response.setStatusCode(500);
-            response.setError(e.getMessage());
+            response.setError("Encountered an error "+ e.getMessage());
         }
         return response;
     }

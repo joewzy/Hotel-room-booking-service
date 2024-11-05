@@ -7,6 +7,7 @@ import com.hotel.RoomBooking.enums.UserRole;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,9 +23,10 @@ public class RequestResponse {
     private LocalDateTime updatedOn;
 
     // response messages
-    private String message;
-    private String error;
     private int statusCode;
+    private String message;
+    private List<Users> allUsersList;
+    private String error;
     private String token;
     private String expirationTime;
 
