@@ -1,6 +1,7 @@
 package com.hotel.RoomBooking.controller.userController;
 
 import com.hotel.RoomBooking.dto.RequestResponse;
+import com.hotel.RoomBooking.entity.Users;
 import com.hotel.RoomBooking.repo.UserRepo;
 import com.hotel.RoomBooking.service.actions.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,13 @@ public class UserManagementController {
         return ResponseEntity.ok(userManagementService.getUserById(id));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/user/{id}")
     public ResponseEntity<RequestResponse> deleteUser(@PathVariable long id){
         return ResponseEntity.ok(userManagementService.deleteUserById(id));
+    }
+
+    @PutMapping("/update/user/{id}")
+    public ResponseEntity<RequestResponse> updateUser(@PathVariable long id, @RequestBody Users newUserInfo){
+        return ResponseEntity.ok(userManagementService.updateUser(id, newUserInfo));
     }
 }

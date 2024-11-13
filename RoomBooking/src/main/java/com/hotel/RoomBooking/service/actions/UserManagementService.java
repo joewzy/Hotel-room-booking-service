@@ -6,6 +6,7 @@ import com.hotel.RoomBooking.entity.Users;
 import com.hotel.RoomBooking.exceptions.UserException;
 import com.hotel.RoomBooking.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public class UserManagementService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public RequestResponse getAllUsers(){
         RequestResponse response = new RequestResponse();
@@ -65,7 +69,7 @@ public class UserManagementService {
         try {
             Optional<Users> user = userRepo.findById(userId);
             if (user.isEmpty()){
-                throw  new UserException("User does not exist!");
+                throw new UserException("User does not exist!");
             }
             userRepo.deleteById(userId);
             response.setStatusCode(200);
@@ -75,6 +79,38 @@ public class UserManagementService {
             response.setStatusCode(500);
             response.setMessage("Failed");
             response.setError("Error encountered: "+ e.getMessage());
+        }
+        return response;
+    }
+
+    public RequestResponse updateUser(long userId, Users user){
+        RequestResponse response = new RequestResponse();
+        try{
+            Optional<Users> theUser = userRepo.findById(userId);
+            if (theUser.isPresent()){
+                Users existingUser = theUser.get();
+                existingUser.setName(user.getName());
+                existingUser.setEmail(user.getEmail());
+                if (user.getUserRole()!=null && !user.getUserRole().name().isEmpty()){
+                    existingUser.setUserRole(user.getUserRole());
+                }
+                if (user.getPassword()!=null && !user.getPassword().isEmpty()){
+                    existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+                }
+                Users updatedUser = userRepo.save(existingUser);
+                response.setStatusCode(200);
+                response.setMessage("Update User successful");
+                response.responseMapper(updatedUser);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("User not found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Failed");
+            response.setError("Error encountered: "+ e.getMessage());
+            throw new RuntimeException(e);
         }
         return response;
     }
