@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -41,8 +42,10 @@ public class AuthServiceImpl implements AuthService {
 
     @PostConstruct
     public void createAdminAccount(){
-        Optional<Users> adminUser = userRepo.findByUserRole(UserRole.ADMIN);
-        if(adminUser.isEmpty()){
+//        Optional<Users> adminUser = userRepo.findByUserRole(UserRole.ADMIN);
+        boolean existsAdmin = userRepo.existsByUserRole(UserRole.ADMIN);
+
+        if(!existsAdmin){
             Users defaultAdminAcc = new Users();
             defaultAdminAcc.setName("admin 1");
             defaultAdminAcc.setEmail("admin@admin.com");
