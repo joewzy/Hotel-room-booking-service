@@ -64,8 +64,9 @@ public class AuthServiceImpl implements AuthService {
         RequestResponse response = new RequestResponse();
         try {
 
-            Optional<Users> existingUser = userRepo.findByEmail(signUpRequest.getEmail());
-            if(existingUser.isPresent()){
+//            Optional<Users> existingUser = userRepo.findByEmail(signUpRequest.getEmail());
+            boolean existingEmail = userRepo.existsByEmail(signUpRequest.getEmail());
+            if(existingEmail){
                 response.setStatusCode(403);
                 response.setMessage("Failed to create user");
                 response.setError("User with email exists "+ signUpRequest.getEmail());
