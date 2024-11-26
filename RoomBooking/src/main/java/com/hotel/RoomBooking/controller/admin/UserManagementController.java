@@ -1,4 +1,4 @@
-package com.hotel.RoomBooking.controller.userController.admin;
+package com.hotel.RoomBooking.controller.admin;
 
 import com.hotel.RoomBooking.dto.RegisterDto;
 import com.hotel.RoomBooking.dto.RequestResponse;
