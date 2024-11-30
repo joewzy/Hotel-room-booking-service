@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,7 +22,7 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
-    private Long price;
+    private float price;
 
     private Boolean available;
 

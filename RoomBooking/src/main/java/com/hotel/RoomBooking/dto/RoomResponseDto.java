@@ -24,7 +24,7 @@ public class RoomResponseDto {
 
     private RoomType roomType;
 
-    private Long price;
+    private float price;
 
     private Boolean available;
 
@@ -42,5 +42,6 @@ public class RoomResponseDto {
         setPrice(room.getPrice());
         setAvailable(room.getAvailable());
         setCreatedOn(room.getCreatedOn());
+        setUpdatedOn(room.getUpdatedOn());
     }
 }

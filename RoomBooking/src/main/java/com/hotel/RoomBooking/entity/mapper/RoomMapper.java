@@ -3,7 +3,9 @@ package com.hotel.RoomBooking.entity.mapper;
 import com.hotel.RoomBooking.dto.RoomDto;
 import com.hotel.RoomBooking.dto.RoomResponseDto;
 import com.hotel.RoomBooking.entity.Room;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RoomMapper {
 
 

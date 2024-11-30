@@ -10,7 +10,7 @@ public class RoomDto {
 
     private RoomType roomType;
 
-    private Long price;
+    private float price;
 
     private Boolean available;
 }
