@@ -18,17 +18,25 @@ public class RoomManagementController {
 
     @PostMapping("/new")
     public ResponseEntity<?> createRoom(@RequestBody RoomDto roomDto) throws RoomException {
-        return ResponseEntity.ok(roomService.createRoom(roomDto));
+//        return ResponseEntity.ok(roomService.createRoom(roomDto));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(roomService.createRoom(roomDto));
     }
 
-    @GetMapping("/getrooms")
+    @GetMapping("/rooms")
     public ResponseEntity<?> getAllRooms() throws RoomException {
         return ResponseEntity.ok(roomService.getAllRooms());
     }
 
+    @GetMapping("/allrooms")
+    public ResponseEntity<?> getAllRoomsPaged(@RequestParam(defaultValue = "0") int pageNumber ) throws RoomException {
+        return ResponseEntity.ok(roomService.getRooms(pageNumber));
+    }
+
     @GetMapping("/getrooms/{id}")
     public ResponseEntity<?> getRoomById(@PathVariable long id) throws RoomException {
-        return ResponseEntity.ok(roomService.getRoomById(id));
+
+            return ResponseEntity.ok(roomService.getRoomById(id));
     }
 
     @GetMapping("/getroom")
@@ -38,7 +46,7 @@ public class RoomManagementController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteRoomById(@PathVariable long id) throws RoomException {
-        return ResponseEntity.ok(roomService.deleteRoomById(id));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(roomService.deleteRoomById(id));
     }
 
     @PutMapping("/getrooms/update/{id}")

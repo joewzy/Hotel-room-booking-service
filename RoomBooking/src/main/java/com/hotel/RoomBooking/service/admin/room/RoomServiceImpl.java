@@ -9,10 +9,14 @@ import com.hotel.RoomBooking.exceptions.RoomException;
 import com.hotel.RoomBooking.repo.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +60,26 @@ public class RoomServiceImpl implements RoomService {
                 roomResponseDto.setRoomList(rooms.stream().map(room -> roomMapper.roomToRoomDto(room)).toList());
 
             }
+        } catch (Exception e) {
+            throw new RoomException("Error encountered: "+ e.getMessage());
+        }
+        return roomResponseDto;
+    }
+
+    // pagination for get all rooms
+    public RoomResponseDto getRooms(int pageNumber) throws RoomException {
+        RoomResponseDto roomResponseDto = new RoomResponseDto();
+        try{
+            int pageSize = 4;
+            Pageable pageable = PageRequest.of(pageNumber,pageSize);
+            Page<Room> roomPage = roomRepository.findAll(pageable);
+
+            roomResponseDto.setStatusCode(200);
+            roomResponseDto.setMessage("Successful");
+            roomResponseDto.setPageNumber(roomPage.getPageable().getPageNumber());
+            roomResponseDto.setTotalPages(roomPage.getTotalPages());
+            roomResponseDto.setRoomList( roomPage.stream().map(room-> roomMapper.roomToRoomDto(room)).toList() );
+
         } catch (Exception e) {
             throw new RoomException("Error encountered: "+ e.getMessage());
         }

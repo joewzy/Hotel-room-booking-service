@@ -24,7 +24,7 @@ public class RoomResponseDto {
 
     private RoomType roomType;
 
-    private float price;
+    private Float price;
 
     private Boolean available;
 
@@ -33,6 +33,10 @@ public class RoomResponseDto {
     private LocalDateTime updatedOn;
 
     private List<RoomDto> roomList;
+
+    //pagination
+    private Integer totalPages;
+    private Integer pageNumber;
 
 
     public void roomToRoomDto(Room room){

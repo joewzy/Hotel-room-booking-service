@@ -2,6 +2,7 @@ package com.hotel.RoomBooking.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,8 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = (60*60*24)*1000;  //24 hours in millis
 
     //Class constructor to generate key for signing token
-    public JwtUtil() {
-        String secretString = "am9zaWFoIHRyeWluZyBvdXQgYSByb29tIHJlc2VydmF0aW9uIHNlcnZpY2UgaW1wbGVtZW50aW5nIGp3dCB3aXRoIHNwcmluZyBzZWN1cml0eQ==";
+    public JwtUtil(@Value("${secret.string}") String secret_string) {
+        String secretString = secret_string;
         byte[] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
         this.key = new SecretKeySpec(keyBytes, "HmacSHA256");
 

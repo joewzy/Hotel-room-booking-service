@@ -5,6 +5,7 @@ import com.hotel.RoomBooking.dto.RequestResponse;
 import com.hotel.RoomBooking.entity.Users;
 import com.hotel.RoomBooking.service.admin.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,8 @@ public class UserManagementController {
 
     @PostMapping("/register")
     public ResponseEntity<RequestResponse>registerUser(@RequestBody RegisterDto registerDto){
-        return ResponseEntity.ok(userManagementService.registerUser(registerDto));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(userManagementService.registerUser(registerDto));
     }
 
     @GetMapping("/get-users")
@@ -32,7 +34,7 @@ public class UserManagementController {
 
     @DeleteMapping("/delete/user/{id}")
     public ResponseEntity<RequestResponse> deleteUser(@PathVariable long id){
-        return ResponseEntity.ok(userManagementService.deleteUserById(id));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userManagementService.deleteUserById(id));
     }
 
     @PutMapping("/update/user/{id}")

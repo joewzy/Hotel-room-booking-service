@@ -11,6 +11,7 @@ public class RoomMapper {
 
     public RoomDto roomToRoomDto(Room room){
         RoomDto roomDto = new RoomDto();
+        roomDto.setId(room.getId());
         roomDto.setName(room.getName());
         roomDto.setRoomType(room.getRoomType());
         roomDto.setPrice(room.getPrice());
